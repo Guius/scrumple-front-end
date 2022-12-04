@@ -8,6 +8,8 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { Tab1PageRoutingModule } from './tab1-routing.module';
 import { Tab1Service } from './tab1.service';
+import { EditTaskComponent } from './edit-task/edit-task.component';
+import { EditTaskService } from './edit-task/edit-task.service';
 
 @NgModule({
   imports: [
@@ -18,7 +20,7 @@ import { Tab1Service } from './tab1.service';
     Tab1PageRoutingModule,
     HttpClientModule,
   ],
-  declarations: [Tab1Page],
-  providers: [Tab1Service],
+  declarations: [Tab1Page, EditTaskComponent],
+  providers: [Tab1Service, EditTaskService],
 })
 export class Tab1PageModule {}

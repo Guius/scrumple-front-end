@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { BacklogItemResponseDto } from './dtos/backlog-item.dto';
 import { firstValueFrom } from 'rxjs';
 import { Tab1Service } from './tab1.service';
+import { ModalController } from '@ionic/angular';
+import { EditTaskComponent } from './edit-task/edit-task.component';
 
 @Component({
   selector: 'app-tab1',
@@ -13,7 +15,11 @@ import { Tab1Service } from './tab1.service';
 export class Tab1Page implements OnInit {
   backlogItems: BacklogItemResponseDto[] = [];
 
-  constructor(private http: HttpClient, private service: Tab1Service) {}
+  constructor(
+    private http: HttpClient,
+    private service: Tab1Service,
+    private modalCtrl: ModalController
+  ) {}
 
   async ngOnInit(): Promise<void> {
     try {
@@ -21,6 +27,19 @@ export class Tab1Page implements OnInit {
     } catch (err) {
       console.error(`Backlog Get All Items failed`);
       console.error(err);
+    }
+  }
+
+  async openModal() {
+    const modal = await this.modalCtrl.create({
+      component: EditTaskComponent,
+    });
+    modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      console.log('Confirm cliccked');
     }
   }
 }

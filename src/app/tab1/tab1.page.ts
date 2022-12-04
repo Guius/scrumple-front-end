@@ -30,16 +30,19 @@ export class Tab1Page implements OnInit {
     }
   }
 
-  async openModal() {
+  async openModal(itemId: string) {
     const modal = await this.modalCtrl.create({
       component: EditTaskComponent,
+      breakpoints: [0, 0.3, 0.75, 1],
+      initialBreakpoint: 0.75,
+      componentProps: { itemId: itemId },
     });
     modal.present();
 
     const { data, role } = await modal.onWillDismiss();
 
     if (role === 'confirm') {
-      console.log('Confirm cliccked');
+      console.log(`Hello ${data}`);
     }
   }
 }

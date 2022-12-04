@@ -1,5 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { firstValueFrom } from 'rxjs';
+import { BacklogItemResponseDto } from '../dtos/backlog-item.dto';
+import { EditTaskService } from './edit-task.service';
 
 @Component({
   selector: 'app-edit-task',
@@ -8,12 +11,26 @@ import { ModalController } from '@ionic/angular';
 })
 export class EditTaskComponent implements OnInit {
   name: string = 'hello';
+  backlogItem: BacklogItemResponseDto = {
+    id: '',
+    name: '',
+    description: '',
+    points: 0,
+    label: '',
+  };
+
   @Input() itemId: string = '';
 
-  constructor(private modalCtrl: ModalController) {}
+  constructor(
+    private modalCtrl: ModalController,
+    private service: EditTaskService
+  ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     console.log(this.itemId);
+    this.backlogItem = await firstValueFrom(
+      this.service.getBacklogItem(this.itemId)
+    );
   }
 
   cancel() {

@@ -11,10 +11,16 @@ import { Tab1Service } from './tab1.service';
   styleUrls: ['tab1.page.scss'],
 })
 export class Tab1Page implements OnInit {
+  backlogItems: BacklogItemResponseDto[] = [];
+
   constructor(private http: HttpClient, private service: Tab1Service) {}
 
   async ngOnInit(): Promise<void> {
-    console.log(environment.api_url);
-    const data = await firstValueFrom(this.service.getBacklogItems());
+    try {
+      this.backlogItems = await firstValueFrom(this.service.getBacklogItems());
+    } catch (err) {
+      console.error(`Backlog Get All Items failed`);
+      console.error(err);
+    }
   }
 }

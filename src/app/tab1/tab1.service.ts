@@ -8,9 +8,9 @@ import { BacklogItemResponseDto } from './dtos/backlog-item.dto';
 export class Tab1Service {
   constructor(private http: HttpClient) {}
 
-  getBacklogItems(): Observable<BacklogItemResponseDto> {
-    return this.http.get<BacklogItemResponseDto>(
-      `${environment.api_url}/backlog:3000`
+  getBacklogItems(): Observable<BacklogItemResponseDto[]> {
+    return this.http.get<BacklogItemResponseDto[]>(
+      `${environment.api_url}/backlog`
     );
   }
 }

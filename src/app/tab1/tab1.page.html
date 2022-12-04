@@ -4,4 +4,12 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true"> </ion-content>
+<ion-content [fullscreen]="true">
+  <ion-item *ngFor="let item of backlogItems" button>
+    <ion-label>{{item.name}}</ion-label>
+    <ion-chip>{{item.points}}</ion-chip>
+    <ion-button slot="start">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-button>
+  </ion-item>
+</ion-content>

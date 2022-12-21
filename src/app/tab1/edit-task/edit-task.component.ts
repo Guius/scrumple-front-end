@@ -20,9 +20,6 @@ export class EditTaskComponent implements OnInit {
   };
 
   submitted = false;
-  onSubmit() {
-    this.submitted = true;
-  }
 
   @Input() itemId: string = '';
 
@@ -42,7 +39,16 @@ export class EditTaskComponent implements OnInit {
     return this.modalCtrl.dismiss(null, 'cancel');
   }
 
-  confirm() {
-    return this.modalCtrl.dismiss(this.name, 'confirm');
+  async onSubmit() {
+    console.log('form submitted');
+    console.debug(this.backlogItem);
+    try {
+      this.backlogItem = await firstValueFrom(
+        this.service.editBacklogItem(this.itemId, this.backlogItem)
+      );
+    } catch (err) {
+      console.error(err);
+    }
+    this.submitted = true;
   }
 }

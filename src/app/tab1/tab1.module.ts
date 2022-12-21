@@ -10,6 +10,7 @@ import { Tab1PageRoutingModule } from './tab1-routing.module';
 import { Tab1Service } from './tab1.service';
 import { EditTaskComponent } from './edit-task/edit-task.component';
 import { EditTaskService } from './edit-task/edit-task.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [

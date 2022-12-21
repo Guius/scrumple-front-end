@@ -19,6 +19,11 @@ export class EditTaskComponent implements OnInit {
     label: '',
   };
 
+  submitted = false;
+  onSubmit() {
+    this.submitted = true;
+  }
+
   @Input() itemId: string = '';
 
   constructor(

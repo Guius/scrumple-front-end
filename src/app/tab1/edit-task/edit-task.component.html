@@ -3,15 +3,42 @@
     <ion-buttons slot="start">
       <ion-button color="medium" (click)="cancel()">Cancel</ion-button>
     </ion-buttons>
-    <ion-title>{{ this.backlogItem.name }}</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="confirm()">Confirm</ion-button>
-    </ion-buttons>
+    <ion-title>Backlog Item</ion-title>
+    <!-- <ion-buttons slot="end">
+      <ion-button type="submit">Confirm</ion-button>
+    </ion-buttons> -->
   </ion-toolbar>
 </ion-header>
 <ion-content class="ion-padding">
-  <ion-item>
-    <ion-label>Item:</ion-label>
-    <ion-input value="{{ this.backlogItem.name }}"></ion-input>
-  </ion-item>
+  <form #editBacklogForm="ngForm" (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-label>Item:</ion-label>
+      <ion-input
+        [(ngModel)]="this.backlogItem.name"
+        name="name"
+        required
+        type="text"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Description:</ion-label>
+      <ion-textarea
+        placeholder="Enter a description here..."
+        [(ngModel)]="this.backlogItem.description"
+        name="description"
+        type="text"
+      ></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label>Points:</ion-label>
+      <ion-input
+        type="number"
+        [(ngModel)]="this.backlogItem.points"
+        name="points"
+        required
+        type="number"
+      ></ion-input>
+    </ion-item>
+    <ion-button>Save</ion-button>
+  </form>
 </ion-content>

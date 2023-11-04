@@ -14,7 +14,7 @@
     <ion-item>
       <ion-label>Item:</ion-label>
       <ion-input
-        [(ngModel)]="this.backlogItem.name"
+        [(ngModel)]="this.form.name"
         name="name"
         required
         type="text"
@@ -24,7 +24,7 @@
       <ion-label>Description:</ion-label>
       <ion-textarea
         placeholder="Enter a description here..."
-        [(ngModel)]="this.backlogItem.description"
+        [(ngModel)]="this.form.description"
         name="description"
         type="text"
       ></ion-textarea>
@@ -33,7 +33,7 @@
       <ion-label>Points:</ion-label>
       <ion-input
         type="number"
-        [(ngModel)]="this.backlogItem.points"
+        [(ngModel)]="this.form.points"
         name="points"
         required
         type="number"

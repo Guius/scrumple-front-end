@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, ToastController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
 import { BacklogItemResponseDto } from '../dtos/backlog-item.dto';
 import { EditTaskService } from './edit-task.service';
@@ -31,7 +31,8 @@ export class EditTaskComponent implements OnInit {
   constructor(
     private modalCtrl: ModalController,
     private service: EditTaskService,
-    private dataSharing: DataSharingService
+    private dataSharing: DataSharingService,
+    private toastController: ToastController
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -50,7 +51,6 @@ export class EditTaskComponent implements OnInit {
 
   async onSubmit() {
     console.log('form submitted');
-    console.debug(this.form);
     try {
       const result = await firstValueFrom(
         this.service.editBacklogItem(this.itemId, this.form)
@@ -65,7 +65,52 @@ export class EditTaskComponent implements OnInit {
       this.modalCtrl.dismiss();
     } catch (err) {
       console.error(err);
+      const toast = await this.toastController.create({
+        message: 'Error editing item',
+        duration: 2000, // Duration in milliseconds
+        position: 'bottom', // Set position to bottom
+        color: 'danger', // Optional: Set the color of the toast
+        buttons: [
+          {
+            side: 'end',
+            text: 'Close',
+            handler: () => {
+              console.log('Close button clicked');
+            },
+          },
+        ],
+      });
+      await toast.present();
+      this.modalCtrl.dismiss();
     }
     this.submitted = true;
+  }
+
+  delete() {
+    this.service.deleteBacklogItem(this.itemId).subscribe({
+      next: () => {
+        this.dataSharing.itemEditedEvent.emit();
+        this.modalCtrl.dismiss();
+      },
+      error: async () => {
+        const toast = await this.toastController.create({
+          message: 'Error deleting item',
+          duration: 2000, // Duration in milliseconds
+          position: 'bottom', // Set position to bottom
+          color: 'danger', // Optional: Set the color of the toast
+          buttons: [
+            {
+              side: 'end',
+              text: 'Close',
+              handler: () => {
+                console.log('Close button clicked');
+              },
+            },
+          ],
+        });
+        await toast.present();
+        this.modalCtrl.dismiss();
+      },
+    });
   }
 }

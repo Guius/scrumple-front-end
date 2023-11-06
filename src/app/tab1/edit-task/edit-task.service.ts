@@ -26,4 +26,8 @@ export class EditTaskService {
       body
     );
   }
+
+  deleteBacklogItem(itemId: string): Observable<void> {
+    return this.http.delete<void>(`${environment.api_url}/backlog/${itemId}`);
+  }
 }

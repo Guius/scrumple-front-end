@@ -6,6 +6,7 @@ import { firstValueFrom } from 'rxjs';
 import { Tab1Service } from './tab1.service';
 import { ModalController } from '@ionic/angular';
 import { EditTaskComponent } from './edit-task/edit-task.component';
+import { DataSharingService } from './data-sharing.service';
 
 @Component({
   selector: 'app-tab1',
@@ -18,16 +19,15 @@ export class Tab1Page implements OnInit {
   constructor(
     private http: HttpClient,
     private service: Tab1Service,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private dataSharing: DataSharingService
   ) {}
 
   async ngOnInit(): Promise<void> {
-    try {
-      this.backlogItems = await firstValueFrom(this.service.getBacklogItems());
-    } catch (err) {
-      console.error(`Backlog Get All Items failed`);
-      console.error(err);
-    }
+    await this.getData();
+    this.dataSharing.itemEditedEvent.subscribe(async () => {
+      await this.getData();
+    });
   }
 
   async openModal(itemId: string) {
@@ -43,6 +43,15 @@ export class Tab1Page implements OnInit {
 
     if (role === 'confirm') {
       console.log(`Hello ${data}`);
+    }
+  }
+
+  async getData() {
+    try {
+      this.backlogItems = await firstValueFrom(this.service.getBacklogItems());
+    } catch (err) {
+      console.error(`Backlog Get All Items failed`);
+      console.error(err);
     }
   }
 }

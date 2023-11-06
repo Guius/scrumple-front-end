@@ -11,6 +11,7 @@ import { Tab1Service } from './tab1.service';
 import { EditTaskComponent } from './edit-task/edit-task.component';
 import { EditTaskService } from './edit-task/edit-task.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { DataSharingService } from './data-sharing.service';
 
 @NgModule({
   imports: [
@@ -22,6 +23,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     HttpClientModule,
   ],
   declarations: [Tab1Page, EditTaskComponent],
-  providers: [Tab1Service, EditTaskService],
+  providers: [Tab1Service, EditTaskService, DataSharingService],
 })
 export class Tab1PageModule {}

@@ -3,6 +3,8 @@ import { ModalController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
 import { BacklogItemResponseDto } from '../dtos/backlog-item.dto';
 import { EditTaskService } from './edit-task.service';
+import { Output, EventEmitter } from '@angular/core';
+import { DataSharingService } from '../data-sharing.service';
 
 interface EditForm {
   name: string;
@@ -16,8 +18,6 @@ interface EditForm {
   styleUrls: ['./edit-task.component.scss'],
 })
 export class EditTaskComponent implements OnInit {
-  name: string = 'hello';
-
   form: EditForm = {
     name: '',
     description: '',
@@ -30,11 +30,11 @@ export class EditTaskComponent implements OnInit {
 
   constructor(
     private modalCtrl: ModalController,
-    private service: EditTaskService
+    private service: EditTaskService,
+    private dataSharing: DataSharingService
   ) {}
 
   async ngOnInit(): Promise<void> {
-    console.log(this.itemId);
     const result = await firstValueFrom(
       this.service.getBacklogItem(this.itemId)
     );
@@ -55,9 +55,14 @@ export class EditTaskComponent implements OnInit {
       const result = await firstValueFrom(
         this.service.editBacklogItem(this.itemId, this.form)
       );
+      // update the form inputs
       this.form.description = result.description;
       this.form.name = result.name;
       this.form.points = result.points;
+
+      // emit an event so that the list page can update it's data
+      this.dataSharing.itemEditedEvent.emit();
+      this.modalCtrl.dismiss();
     } catch (err) {
       console.error(err);
     }

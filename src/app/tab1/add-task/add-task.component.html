@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="medium" (click)="cancel()">Cancel</ion-button>
+    </ion-buttons>
+    <ion-title>Backlog Item</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <form #editBacklogForm="ngForm" (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-label>Item:</ion-label>
+      <ion-input
+        [(ngModel)]="this.form.name"
+        name="name"
+        required
+        type="text"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Description:</ion-label>
+      <ion-textarea
+        placeholder="Enter a description here..."
+        [(ngModel)]="this.form.description"
+        name="description"
+        type="text"
+      ></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label>Points:</ion-label>
+      <ion-input
+        type="number"
+        [(ngModel)]="this.form.points"
+        name="points"
+        required
+        type="number"
+      ></ion-input>
+    </ion-item>
+
+    <div class="d-flex flex-row-reverse">
+      <ion-button type="submit" shape="round" class="mt-3 ion-color-danger"
+        >Save</ion-button
+      >
+    </div>
+  </form>
+</ion-content>

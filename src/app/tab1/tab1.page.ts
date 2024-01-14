@@ -7,6 +7,7 @@ import { Tab1Service } from './tab1.service';
 import { ModalController } from '@ionic/angular';
 import { EditTaskComponent } from './edit-task/edit-task.component';
 import { DataSharingService } from './data-sharing.service';
+import { AddTaskComponent } from './add-task/add-task.component';
 
 @Component({
   selector: 'app-tab1',
@@ -30,12 +31,27 @@ export class Tab1Page implements OnInit {
     });
   }
 
-  async openModal(itemId: string) {
+  async openEditModal(itemId: string) {
     const modal = await this.modalCtrl.create({
       component: EditTaskComponent,
       breakpoints: [0, 0.3, 0.75, 1],
       initialBreakpoint: 0.75,
       componentProps: { itemId: itemId },
+    });
+    modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      console.log(`Hello ${data}`);
+    }
+  }
+
+  async openAddModal() {
+    const modal = await this.modalCtrl.create({
+      component: AddTaskComponent,
+      breakpoints: [0, 0.3, 0.75, 1],
+      initialBreakpoint: 0.75,
     });
     modal.present();
 

@@ -10,8 +10,10 @@ import { Tab1PageRoutingModule } from './tab1-routing.module';
 import { Tab1Service } from './tab1.service';
 import { EditTaskComponent } from './edit-task/edit-task.component';
 import { EditTaskService } from './edit-task/edit-task.service';
-import { NgbModule, NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 import { DataSharingService } from './data-sharing.service';
+import { AddTaskComponent } from './add-task/add-task.component';
+import { AddTaskService } from './add-task/add-task.service';
 
 @NgModule({
   imports: [
@@ -23,7 +25,7 @@ import { DataSharingService } from './data-sharing.service';
     HttpClientModule,
     NgbToastModule,
   ],
-  declarations: [Tab1Page, EditTaskComponent],
-  providers: [Tab1Service, EditTaskService, DataSharingService],
+  declarations: [Tab1Page, EditTaskComponent, AddTaskComponent],
+  providers: [Tab1Service, EditTaskService, AddTaskService, DataSharingService],
 })
 export class Tab1PageModule {}

@@ -1,19 +1,26 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title> Backlog </ion-title>
+    <ion-title>Backlog</ion-title>
+    <ion-buttons [collapse]="true" slot="end">
+      <ion-button (click)="openAddModal()">Add new</ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
-<ion-content class="ion-padding">
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Backlog</ion-title>
+      <ion-buttons [collapse]="true" slot="end">
+        <ion-button (click)="openAddModal()">Add new</ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
   <ion-item
     *ngFor="let item of backlogItems"
     button
-    (click)="openModal(item.id)"
+    (click)="openEditModal(item.id)"
   >
     <ion-label>{{item.name}}</ion-label>
     <ion-chip>{{item.points}}</ion-chip>
-    <ion-button slot="start">
-      <ion-icon name="add-outline"></ion-icon>
-    </ion-button>
   </ion-item>
 </ion-content>

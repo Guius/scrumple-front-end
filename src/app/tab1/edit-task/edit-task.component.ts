@@ -149,15 +149,32 @@ export class EditTaskComponent implements OnInit {
     });
   }
 
-  assign() {
-    this.service.deleteBacklogItem(this.itemId).subscribe({
-      next: () => {
+  assign(e: unknown) {
+    const event: CustomEvent = e as CustomEvent;
+    this.service.assignToSprint(this.itemId, event.detail.value).subscribe({
+      next: async () => {
         this.dataSharing.itemEditedEvent.emit();
         this.modalCtrl.dismiss();
+        const toast = await this.toastController.create({
+          message: `Assigned item to sprint`,
+          duration: 2000, // Duration in milliseconds
+          position: 'bottom', // Set position to bottom
+          color: 'success', // Optional: Set the color of the toast
+          buttons: [
+            {
+              side: 'end',
+              text: 'Close',
+              handler: () => {
+                console.log('Close button clicked');
+              },
+            },
+          ],
+        });
+        await toast.present();
       },
       error: async () => {
         const toast = await this.toastController.create({
-          message: 'Error deleting item',
+          message: `Could not assign the item to sprint`,
           duration: 2000, // Duration in milliseconds
           position: 'bottom', // Set position to bottom
           color: 'danger', // Optional: Set the color of the toast

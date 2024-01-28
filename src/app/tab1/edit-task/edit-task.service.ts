@@ -32,7 +32,9 @@ export class EditTaskService {
     return this.http.delete<void>(`${environment.api_url}/backlog/${itemId}`);
   }
 
-  getActiveSprints(): Observable<GetNotCompleteSprintNumbersResponseDto[]> {
+  getActiveSprintNumbers(): Observable<
+    GetNotCompleteSprintNumbersResponseDto[]
+  > {
     return this.http.get<GetNotCompleteSprintNumbersResponseDto[]>(
       `${environment.api_url}/sprint/not-complete-sprint-numbers`
     );

@@ -5,6 +5,8 @@ import { BacklogItemResponseDto } from '../dtos/backlog-item.dto';
 import { EditTaskService } from './edit-task.service';
 import { Output, EventEmitter } from '@angular/core';
 import { DataSharingService } from '../data-sharing.service';
+import { GetNotCompleteSprintNumbersResponseDto } from '../dtos/sprint-number.dto';
+import { error } from 'console';
 
 interface EditForm {
   name: string;
@@ -24,6 +26,8 @@ export class EditTaskComponent implements OnInit {
     points: 0,
   };
 
+  sprintSelection: GetNotCompleteSprintNumbersResponseDto[] = [];
+
   submitted = false;
 
   @Input() itemId: string = '';
@@ -36,6 +40,7 @@ export class EditTaskComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
+    // TODO: handle this error
     const result = await firstValueFrom(
       this.service.getBacklogItem(this.itemId)
     );
@@ -43,6 +48,8 @@ export class EditTaskComponent implements OnInit {
     this.form.description = result.description;
     this.form.name = result.name;
     this.form.points = result.points;
+
+    this.getSprintSelection();
   }
 
   cancel() {
@@ -87,6 +94,62 @@ export class EditTaskComponent implements OnInit {
   }
 
   delete() {
+    this.service.deleteBacklogItem(this.itemId).subscribe({
+      next: () => {
+        this.dataSharing.itemEditedEvent.emit();
+        this.modalCtrl.dismiss();
+      },
+      error: async () => {
+        const toast = await this.toastController.create({
+          message: 'Error deleting item',
+          duration: 2000, // Duration in milliseconds
+          position: 'bottom', // Set position to bottom
+          color: 'danger', // Optional: Set the color of the toast
+          buttons: [
+            {
+              side: 'end',
+              text: 'Close',
+              handler: () => {
+                console.log('Close button clicked');
+              },
+            },
+          ],
+        });
+        await toast.present();
+        this.modalCtrl.dismiss();
+      },
+    });
+  }
+
+  getSprintSelection() {
+    this.service.getActiveSprintNumbers().subscribe({
+      next: (data: GetNotCompleteSprintNumbersResponseDto[]) => {
+        this.sprintSelection = data;
+        console.log(this.sprintSelection);
+      },
+      error: async (error) => {
+        const toast = await this.toastController.create({
+          message: 'Could not open task',
+          duration: 2000, // Duration in milliseconds
+          position: 'bottom', // Set position to bottom
+          color: 'danger', // Optional: Set the color of the toast
+          buttons: [
+            {
+              side: 'end',
+              text: 'Close',
+              handler: () => {
+                console.log('Close button clicked');
+              },
+            },
+          ],
+        });
+        await toast.present();
+        this.modalCtrl.dismiss();
+      },
+    });
+  }
+
+  assign() {
     this.service.deleteBacklogItem(this.itemId).subscribe({
       next: () => {
         this.dataSharing.itemEditedEvent.emit();

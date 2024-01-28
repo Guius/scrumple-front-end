@@ -6,6 +6,7 @@ import {
   BacklogItemRequestDto,
   BacklogItemResponseDto,
 } from '../dtos/backlog-item.dto';
+import { GetNotCompleteSprintNumbersResponseDto } from '../dtos/sprint-number.dto';
 
 @Injectable()
 export class EditTaskService {
@@ -29,5 +30,18 @@ export class EditTaskService {
 
   deleteBacklogItem(itemId: string): Observable<void> {
     return this.http.delete<void>(`${environment.api_url}/backlog/${itemId}`);
+  }
+
+  getActiveSprints(): Observable<GetNotCompleteSprintNumbersResponseDto[]> {
+    return this.http.get<GetNotCompleteSprintNumbersResponseDto[]>(
+      `${environment.api_url}/sprint/not-complete-sprint-numbers`
+    );
+  }
+
+  assignToSprint(itemId: string, sprintId: string): Observable<void> {
+    return this.http.patch<void>(
+      `${environment.api_url}/backlog/assign/${itemId}/${sprintId}`,
+      {}
+    );
   }
 }

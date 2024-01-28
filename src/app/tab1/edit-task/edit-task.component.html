@@ -43,10 +43,13 @@
       ></ion-input>
     </ion-item>
 
-    <div class="d-flex flex-row-reverse">
-      <ion-button type="submit" shape="round" class="mt-3 ion-color-danger"
-        >Save</ion-button
-      >
+    <div class="d-flex flex-row-reverse justify-content-between">
+      <ion-button type="submit" shape="round" class="mt-3">Save</ion-button>
+      <ion-select label="Default label" placeholder="Add to sprint">
+        <ion-select-option value="apple">Apple</ion-select-option>
+        <ion-select-option value="banana">Banana</ion-select-option>
+        <ion-select-option value="orange">Orange</ion-select-option>
+      </ion-select>
     </div>
   </form>
 </ion-content>
